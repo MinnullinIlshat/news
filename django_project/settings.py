@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -43,7 +44,10 @@ INSTALLED_APPS = [
     # Local
     "accounts.apps.AccountsConfig",
     "pages.apps.PagesConfig",
+    "articles.apps.ArticlesConfig",
 ]
+
+TIME_ZONE = "Russia/Moscow"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -136,4 +140,12 @@ LOGOUT_REDIRECT_URL = "home"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+from . import my_pass
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+DEFAULT_FROM_EMAIL = my_pass.host_user
+EMAIL_HOST = my_pass.host 
+EMAIL_HOST_USER = my_pass.host_user
+EMAIL_HOST_PASSWORD = my_pass.host_pass
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True 
