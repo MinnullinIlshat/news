@@ -29,18 +29,14 @@ class CommentPost(SingleObjectMixin, FormView):
     form_class = CommentForm 
     template_name = "article_detail.html"
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().post(request, *args, **kwargs)
-
     def form_valid(self, form):
         comment = form.save(commit=False)
-        comment.article = self.object 
+        comment.article = self.get_object() 
         comment.save()
         return super().form_valid(form)
 
     def get_success_url(self) -> str:
-        return reverse("article_detail", kwargs={"pk": self.object.pk})
+        return reverse("article_detail", kwargs={"pk": self.get_object().pk})
 
 
 class ArticleDetailView(LoginRequiredMixin, View):
